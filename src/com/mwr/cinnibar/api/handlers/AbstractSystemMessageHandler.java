@@ -8,9 +8,9 @@ public abstract class AbstractSystemMessageHandler implements MessageHandler {
 	@Override
 	public Message handle(Message message) throws InvalidMessageException {
 		if(message.getType() != Message.MessageType.SYSTEM_REQUEST)
-			throw new InvalidMessageException("is not a SYSTEM_REQUEST", message);
+			throw new InvalidMessageException(message);
 		if(!message.hasSystemRequest())
-			throw new InvalidMessageException("does not contain a SYSTEM_REQUEST", message);
+			throw new InvalidMessageException(message);
 		
 		switch(message.getSystemRequest().getType()) {
 		case LIST_DEVICES:
@@ -29,7 +29,7 @@ public abstract class AbstractSystemMessageHandler implements MessageHandler {
 			return this.stopSession(message);
 			
 		default:
-			throw new InvalidMessageException("unhandled SYSTEM_REQUEST type: " + message.getSystemRequest().getType().toString(), message);
+			throw new InvalidMessageException(message);
 		}
 	}
 		

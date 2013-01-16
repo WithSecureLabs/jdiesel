@@ -8,21 +8,21 @@ public abstract class AbstractReflectionMessageHandler implements MessageHandler
 	@Override
 	public Message handle(Message message) throws InvalidMessageException {
 		if(message.getType() != Message.MessageType.REFLECTION_REQUEST)
-			throw new InvalidMessageException("is not a REFLECTION_REQUEST", message);
+			throw new InvalidMessageException(message);
 		if(!message.hasReflectionRequest())
-			throw new InvalidMessageException("does not contain a REFLECTION_REQUEST", message);
+			throw new InvalidMessageException(message);
 		
 		try {
 			switch(message.getReflectionRequest().getType()) {
 			case CONSTRUCT:
 				if(!message.getReflectionRequest().hasConstruct())
-					throw new InvalidMessageException("expected a CONSTRUCT message to contain a target to construct", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleConstruct(message);
 				
 			case DELETE:
 				if(!message.getReflectionRequest().hasDelete())
-					throw new InvalidMessageException("expected a DELETE message to contain a target to delete", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleDelete(message);
 				
@@ -31,30 +31,30 @@ public abstract class AbstractReflectionMessageHandler implements MessageHandler
 				
 			case GET_PROPERTY:
 				if(!message.getReflectionRequest().hasGetProperty())
-					throw new InvalidMessageException("expected a GET_PROPERTY message to contain a target to get", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleGetProperty(message);
 				
 			case INVOKE:
 				if(!message.getReflectionRequest().hasInvoke())
-					throw new InvalidMessageException("expected an INVOKE message to contain a target to invoke", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleInvoke(message);
 				
 			case RESOLVE:
 				if(!message.getReflectionRequest().hasResolve())
-					throw new InvalidMessageException("expected a RESOLVE message to contain a target to resolve", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleResolve(message);
 						
 			case SET_PROPERTY:
 				if(!message.getReflectionRequest().hasSetProperty())
-					throw new InvalidMessageException("expected a SET_PROPERTY message to contain a target to set", message);
+					throw new InvalidMessageException(message);
 				
 				return this.handleSetProperty(message);
 			
 			default:
-				throw new InvalidMessageException("unhandled REFLECTION_REQUEST type: " + message.getReflectionRequest().getType().toString(), message);
+				throw new InvalidMessageException(message);
 			}
 		}
 		catch(Exception e) {
