@@ -17,13 +17,13 @@ public abstract class AbstractConnection extends Thread {
 	
 	private static final long LIVENESS_THRESHOLD = 30000L; // milliseconds
 	
-	private AbstractConnector connector = null;
+	private AbstractLink connector = null;
 	private long last_message_at = 0;
 	public volatile boolean running = false;
 	public volatile boolean started = false;
 	private Transport transport = null;
 	
-	public AbstractConnection(AbstractConnector connector, Transport transport) {
+	public AbstractConnection(AbstractLink connector, Transport transport) {
 		this.connector = connector;
 		this.transport = transport;
 	}
@@ -50,7 +50,7 @@ public abstract class AbstractConnection extends Thread {
 		}
 	}
 	
-	protected AbstractConnector getConnector() {
+	protected AbstractLink getConnector() {
 		return this.connector;
 	}
 	

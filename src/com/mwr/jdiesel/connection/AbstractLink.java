@@ -3,7 +3,7 @@ package com.mwr.jdiesel.connection;
 import com.mwr.jdiesel.api.Protobuf.Message;
 import com.mwr.jdiesel.api.transport.Transport;
 
-public abstract class AbstractConnector extends Thread {
+public abstract class AbstractLink extends Thread {
 
 	public volatile boolean running = false;
 	protected volatile AbstractConnection connection = null;
