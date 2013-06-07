@@ -12,14 +12,11 @@ import java.security.UnrecoverableKeyException;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 
-//import com.mwr.dz.Agent;
-
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
-public class Server extends Connector implements OnSharedPreferenceChangeListener {
+public class Server extends Connector {
 	
 	public static final String SERVER_KEY_PASSWORD = "server:key:password";
 	public static final String SERVER_KEYSTORE_PASSWORD = "server:ks:password";
@@ -51,17 +48,11 @@ public class Server extends Connector implements OnSharedPreferenceChangeListene
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
 
-	public Server() {
-		this.setFromPreferences();
-	}
+	public Server() {}
 
-	public Server(int port) {
-		this.setPort(port);
-	}
-
-	private void clearKeyManagerFactory() {
-		this.key_managers = null;
-	}
+//	public Server(int port) {
+//		this.setPort(port);
+//	}
 	
 	public KeyManager[] getKeyManagers() throws CertificateException, FileNotFoundException, IOException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
 		if (this.key_managers == null) {
@@ -93,20 +84,25 @@ public class Server extends Connector implements OnSharedPreferenceChangeListene
 		return this.ssl;
 	}
 
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if(key.equals(SERVER_PORT) ||
-				key.equals(SERVER_PASSWORD) ||
-				key.equals(SERVER_SSL) || 
-				key.equals(SERVER_KEYSTORE_PATH) || 
-				key.equals(SERVER_KEYSTORE_PASSWORD) || 
-				key.equals(SERVER_KEY_PASSWORD))
-			this.setFromPreferences();
+	public void resetKeyManagerFactory() {
+		this.key_managers = null;
 	}
 	
 	public void setDetailedStatus(Bundle status) {
 		if(this.on_detailed_status_listener != null)
 			this.on_detailed_status_listener.onDetailedStatus(status);
+	}
+	
+	public void setKeyPassword(char[] password) {
+		this.key_password = password;
+	}
+	
+	public void setKeyStorePassword(char[] password) {
+		this.keystore_password = password;
+	}
+	
+	public void setKeyStorePath(String path) {
+		this.keystore_path = path;
 	}
 
 	public void setOnChangeListener(OnChangeListener listener) {
@@ -115,22 +111,6 @@ public class Server extends Connector implements OnSharedPreferenceChangeListene
 	
 	public void setOnDetailedStatusListener(OnDetailedStatusListener listener) {
 		this.on_detailed_status_listener = listener;
-	}
-
-	public void setFromPreferences() {
-//		this.setPort(Integer.parseInt(Agent.getInstance().getSettings().getString(SERVER_PORT, "31415")));
-//		this.setPassword(Agent.getInstance().getSettings().getString(SERVER_PASSWORD, ""));
-//		this.setSSL(Agent.getInstance().getSettings().getBoolean(SERVER_SSL, false));
-//
-//		if(this.isSSL()) {
-//			this.keystore_path = Agent.getInstance().getSettings().getString(SERVER_KEYSTORE_PATH, "/data/data/com.mwr.dz/files/mercury.bks");
-//			this.keystore_password = Agent.getInstance().getSettings().getString(SERVER_KEYSTORE_PASSWORD, "mercury").toCharArray();
-//			this.key_password = Agent.getInstance().getSettings().getString(SERVER_KEY_PASSWORD, "mercury").toCharArray();
-//		}
-//
-//		this.clearKeyManagerFactory();
-//
-//		Agent.getInstance().getSettings().registerOnSharedPreferenceChangeListener(this);
 	}
 
 	public void setPassword(String password) {
@@ -152,16 +132,6 @@ public class Server extends Connector implements OnSharedPreferenceChangeListene
 
 		if(this.on_change_listener != null)
 			this.on_change_listener.onChange(this);
-	}
-
-	public boolean update(Server parameters) {
-//		Editor editor = Agent.getInstance().getSettings().edit();
-//
-//		editor.remove(SERVER_PORT);
-//		editor.putString(SERVER_PORT, Integer.valueOf(parameters.getPort()).toString());
-//
-//		return editor.commit();
-		return false;
 	}
 	
 	@Override
