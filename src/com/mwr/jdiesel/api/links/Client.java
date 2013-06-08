@@ -85,6 +85,7 @@ public class Client extends Link {
 			}
 			catch(IOException e) {
 				this.log(LogMessage.ERROR, "IO Error. Resetting connection.");
+				this.log(LogMessage.DEBUG, e.getMessage());
 				
 				this.resetConnection();
 			}

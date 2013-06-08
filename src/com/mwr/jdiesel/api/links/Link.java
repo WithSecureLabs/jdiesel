@@ -1,5 +1,7 @@
 package com.mwr.jdiesel.api.links;
 
+import android.util.Log;
+
 import com.mwr.jdiesel.api.connectors.Connection;
 import com.mwr.jdiesel.api.connectors.Connector;
 import com.mwr.jdiesel.api.sessions.Session;
@@ -37,11 +39,17 @@ public abstract class Link extends AbstractLink {
 	}
 
 	public void log(int level, String message) {
-		this.logger.log(level, message);		
+		if(this.logger != null)
+			this.logger.log(level, message);
+		else
+			Log.i("link", message);
 	}
 	
 	public void log(LogMessage message) {
-		this.logger.log(message);
+		if(this.logger != null)
+			this.logger.log(message);
+		else
+			Log.i("link", message.getMessage());
 	}
 	
 	public void setLogger(Logger logger) {
