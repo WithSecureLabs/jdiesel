@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="cinnibar" default="help">
+<project name="jdiesel" default="help">
 
   <target name="-pre-compile">
     <exec executable="protoc">
