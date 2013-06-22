@@ -8,6 +8,7 @@ import java.security.KeyStoreException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.connectors.ServerSocketFactory;
 import com.mwr.jdiesel.api.connectors.Connector.Status;
 import com.mwr.jdiesel.api.transport.SocketTransport;
@@ -18,8 +19,8 @@ public class Server extends Link {
 	
 	private ServerSocket server_socket = null;
 	
-	public Server(com.mwr.jdiesel.api.connectors.Server parameters) {
-		super(parameters);
+	public Server(com.mwr.jdiesel.api.connectors.Server parameters, DeviceInfo device_info) {
+		super(parameters, device_info);
 	}
 	
 	@Override

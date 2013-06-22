@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.connectors.Endpoint;
 import com.mwr.jdiesel.api.connectors.EndpointSocketFactory;
 import com.mwr.jdiesel.api.connectors.Connector.Status;
@@ -16,8 +17,8 @@ public class Client extends Link {
 	
 	public static final int RESET_TIMEOUT = 5000;
 	
-	public Client(Endpoint endpoint) {
-		super(endpoint);
+	public Client(Endpoint endpoint, DeviceInfo device_info) {
+		super(endpoint, device_info);
 	}
 
 	public String getHostCertificateFingerprint() {

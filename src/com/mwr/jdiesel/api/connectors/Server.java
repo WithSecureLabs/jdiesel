@@ -12,8 +12,6 @@ import java.security.UnrecoverableKeyException;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
 public class Server extends Connector {

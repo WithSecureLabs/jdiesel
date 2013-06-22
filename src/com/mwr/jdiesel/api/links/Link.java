@@ -2,6 +2,7 @@ package com.mwr.jdiesel.api.links;
 
 import android.util.Log;
 
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.connectors.Connection;
 import com.mwr.jdiesel.api.connectors.Connector;
 import com.mwr.jdiesel.api.sessions.Session;
@@ -15,11 +16,14 @@ import com.mwr.jdiesel.logger.Logger;
 public abstract class Link extends AbstractLink {
 	
 	protected Connector parameters = null;
+	private DeviceInfo device_info;
 	
 	private Logger logger = null;
 	
-	public Link(Connector parameters) {
+	public Link(Connector parameters, DeviceInfo device_info) {
 		this.parameters = parameters;
+		this.device_info = device_info;
+		
 		this.setSessionCollection(new SessionCollection(this));
 	}
 	
@@ -28,7 +32,7 @@ public abstract class Link extends AbstractLink {
 	@Override
 	protected void createConnection(Transport transport) {
 		if(transport.isLive()) {
-			this.connection = new Connection(this, transport);
+			this.connection = new Connection(this, this.device_info, transport);
 			this.connection.start();
 		}
 	}

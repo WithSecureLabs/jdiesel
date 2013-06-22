@@ -1,5 +1,6 @@
 package com.mwr.jdiesel.api.handlers;
 
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.InvalidMessageException;
 import com.mwr.jdiesel.api.Protobuf.Message;
 import com.mwr.jdiesel.api.builders.MessageFactory;
@@ -10,9 +11,11 @@ import com.mwr.jdiesel.api.sessions.Session;
 public class SystemMessageHandler implements MessageHandler {
 	
 	private Connection connection = null;
+	private DeviceInfo device_info;
 	
-	public SystemMessageHandler(Connection connection) {
+	public SystemMessageHandler(Connection connection, DeviceInfo device_info) {
 		this.connection = connection;
+		this.device_info = device_info;
 	}
 	
 	@Override
@@ -45,11 +48,10 @@ public class SystemMessageHandler implements MessageHandler {
 	
 	protected Message handleListDevices(Message message) throws InvalidMessageException {
 		MessageFactory factory = new MessageFactory(SystemResponseFactory.deviceList(message).addDevice(
-//				Agent.getInstance().getUID(),
-				"0000000000000000",
-				android.os.Build.MANUFACTURER,
-				android.os.Build.MODEL,
-				android.os.Build.VERSION.RELEASE));
+				this.device_info.getAndroidID(),
+				this.device_info.getManufacturer(),
+				this.device_info.getModel(),
+				this.device_info.getSoftware()));
 		
 		factory.inReplyTo(message);
 		

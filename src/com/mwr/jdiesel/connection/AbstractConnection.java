@@ -6,6 +6,7 @@ import java.net.SocketTimeoutException;
 import android.util.Log;
 
 import com.mwr.jdiesel.api.APIVersionException;
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.Frame;
 import com.mwr.jdiesel.api.InvalidMessageException;
 import com.mwr.jdiesel.api.UnexpectedMessageException;
@@ -18,13 +19,15 @@ public abstract class AbstractConnection extends Thread {
 	private static final long LIVENESS_THRESHOLD = 30000L; // milliseconds
 	
 	private AbstractLink connector = null;
+	private DeviceInfo device_info;
 	private long last_message_at = 0;
 	public volatile boolean running = false;
 	public volatile boolean started = false;
 	private Transport transport = null;
 	
-	public AbstractConnection(AbstractLink connector, Transport transport) {
+	public AbstractConnection(AbstractLink connector, DeviceInfo device_info, Transport transport) {
 		this.connector = connector;
+		this.device_info = device_info;
 		this.transport = transport;
 	}
 	
@@ -34,7 +37,7 @@ public abstract class AbstractConnection extends Thread {
 	 * 
 	 * Note: this is only used if we are operating as a Client (see {@link #mustBind()}).
 	 */
-	protected abstract boolean bindToServer();
+	protected abstract boolean bindToServer(DeviceInfo device);
 	
 	/**
 	 * Perform a liveness check. If we haven't received a message in the last {@link #LIVENESS_THRESHOLD} milliseconds,
@@ -169,7 +172,7 @@ public abstract class AbstractConnection extends Thread {
 		
 		Message request = null;
 		
-		if(!this.bindToServer())
+		if(!this.bindToServer(this.device_info))
 			this.stopConnection();
 		
 		while(this.running) {
@@ -186,7 +189,7 @@ public abstract class AbstractConnection extends Thread {
 			Thread.yield();
 		}
 		
-		this.unbindFromServer();
+		this.unbindFromServer(this.device_info);
 	}
 	
 	/**
@@ -270,6 +273,6 @@ public abstract class AbstractConnection extends Thread {
 	 * Attempt to disconnect from the server, indicating that our device id is not longer
 	 * available.
 	 */
-	protected abstract void unbindFromServer();
+	protected abstract void unbindFromServer(DeviceInfo device);
 	
 }

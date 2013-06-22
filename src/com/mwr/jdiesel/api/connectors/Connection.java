@@ -1,5 +1,6 @@
 package com.mwr.jdiesel.api.connectors;
 
+import com.mwr.jdiesel.api.DeviceInfo;
 import com.mwr.jdiesel.api.Protobuf.Message;
 import com.mwr.jdiesel.api.builders.MessageFactory;
 import com.mwr.jdiesel.api.builders.SystemRequestFactory;
@@ -22,10 +23,12 @@ import com.mwr.jdiesel.logger.LogMessage;
  */
 public class Connection extends AbstractConnection implements SecureConnection {
 	
-	private MessageHandler system_message_handler = new SystemMessageHandler(this);
+	private MessageHandler system_message_handler;
 	
-	public Connection(AbstractLink connector, Transport transport) {
-		super(connector, transport);
+	public Connection(AbstractLink connector, DeviceInfo device_info, Transport transport) {
+		super(connector, device_info, transport);
+		
+		this.system_message_handler = new SystemMessageHandler(this, device_info);
 	}
 	
 	@Override
@@ -35,16 +38,15 @@ public class Connection extends AbstractConnection implements SecureConnection {
 	 * 
 	 * Note: this is only used if we are operating as a Client (see {@link #mustBind()}).
 	 */
-	protected boolean bindToServer() {
+	protected boolean bindToServer(DeviceInfo device) {
 		if(this.mustBind()) {
 			this.log(LogMessage.DEBUG, "Sending BIND_DEVICE to Mercury server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice(
-//					Agent.getInstance().getUID(),
-					"0000000000000000",
-					android.os.Build.MANUFACTURER,
-					android.os.Build.MODEL,
-					android.os.Build.VERSION.RELEASE)).setId(1).build());
+					device.getAndroidID(),
+					device.getManufacturer(),
+					device.getModel(),
+					device.getSoftware())).setId(1).build());
 			
 			Message message = this.receive();
 			
@@ -122,16 +124,15 @@ public class Connection extends AbstractConnection implements SecureConnection {
 	 * Attempt to disconnect from the server, indicating that our device id is not longer
 	 * available.
 	 */
-	protected void unbindFromServer() {
+	protected void unbindFromServer(DeviceInfo device) {
 		if(this.mustBind()) {
 			this.log(LogMessage.DEBUG, "Sending UNBIND_DEVICE to Mercury server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice(
-//					Agent.getInstance().getUID(),
-					"0000000000000000",
-					android.os.Build.MANUFACTURER,
-					android.os.Build.MODEL,
-					android.os.Build.VERSION.RELEASE)).setId(1).build());
+					device.getAndroidID(),
+					device.getManufacturer(),
+					device.getModel(),
+					device.getSoftware())).setId(1).build());
 			
 			Message message = this.receive();
 			
