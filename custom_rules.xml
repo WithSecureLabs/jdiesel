@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="jdiesel" default="help">
-
-  <target name="-pre-compile">
+  
+  <condition property="is_windows">
+    <os family="windows"/>
+  </condition>
+  
+  <target name="-pre-compile" depends="-build-natives,-build-natives-win">
     <exec executable="protoc">
       <arg value="--java_out=gen" />
       <arg value="common/protobuf.proto" />
     </exec>
-
+  </target>
+  
+  <target name="-build-natives" unless="is_windows">
     <exec executable="ndk-build" />
+  </target>
+  
+  <target name="-build-natives-win" if="if_windows">
+    <exec executable="ndk-build.cmd" />
   </target>
 
 </project>
