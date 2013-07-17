@@ -1,19 +1,22 @@
-drozer
-======
+jdiesel (fuels the drozer)
+========================
 
-Mercury is a security assessment framework for the Android platform. It allows you to dynamically interact with the IPC endpoints exported by an application installed on a device.
+jdiesel does the heavy-lifting for drozer. For more information about drozer see the [main project](https://github.com/mwrlabs/drozer).
 
-Mercury is open source software, maintained by MWR InfoSecurity, and can be downloaded from:
+jdiesel supports drozer by providing a number of services:
 
-    mwr.to/mercury
-
-Mercury provides similar functionality to a number of static analysis tools, such as aapt, but offers far more flexibility by allowing you to interact with these endpoints from the context of an unprivileged application running on the same device. The Android sandbox is designed to restrict the access of an unprivileged application to other applications, and the underlying device, without requesting appropriate permissions. You will be surprised how much access you actually have...
+* Network Communication
+jdiesel provides an implementation of drozerp (the binary protocol drozer uses to communicate between consoles and agents)
+* Session Hosting
+jdiesel provides the threads to establish and run a drozer session
+* Remote Code Execution
+jdiesel exposes the reflection interface used to provide remote Java execution on a device
 
 
 License
 -------
 
-drozer is released under a 3-clause BSD License. See LICENSE for full details.
+jdiesel is released under a 3-clause BSD License. See LICENSE for full details.
 
 
 Contacting the Project
