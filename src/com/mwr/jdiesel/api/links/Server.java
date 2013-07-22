@@ -107,7 +107,7 @@ public class Server extends Link {
 			}
 			catch(IOException e) {
 				this.log(LogMessage.ERROR, "IO Error. Resetting connection.");
-				
+			System.out.println("error: " + e.toString());	
 				this.resetConnection();
 			}
 			catch(KeyManagementException e) {

@@ -55,7 +55,7 @@ public class Endpoint extends Connector {
 	private String password = "";
 	private int port = 31415;
 	private boolean ssl = false;
-	private String ssl_truststore_password = "mercury";
+	private String ssl_truststore_password = "drozer";
 	private String ssl_truststore_path = "/data/data/com.mwr.dz/files/ca.bks";
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
@@ -69,7 +69,7 @@ public class Endpoint extends Connector {
 	}
 	
 	public Endpoint(int id, String name, String host, int port) {
-		this(id, name, host, port, false, "/data/data/com.mwr.dz/files/ca.bks", "mercury", "");
+		this(id, name, host, port, false, "/data/data/com.mwr.dz/files/ca.bks", "drozer", "");
 	}
 	
 	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
