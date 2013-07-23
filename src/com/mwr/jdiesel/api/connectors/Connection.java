@@ -40,7 +40,7 @@ public class Connection extends AbstractConnection implements SecureConnection {
 	 */
 	protected boolean bindToServer(DeviceInfo device) {
 		if(this.mustBind()) {
-			this.log(LogMessage.DEBUG, "Sending BIND_DEVICE to Mercury server...");
+			this.log(LogMessage.DEBUG, "Sending BIND_DEVICE to drozer server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.bind().setDevice(
 					device.getAndroidID(),
@@ -126,7 +126,7 @@ public class Connection extends AbstractConnection implements SecureConnection {
 	 */
 	protected void unbindFromServer(DeviceInfo device) {
 		if(this.mustBind()) {
-			this.log(LogMessage.DEBUG, "Sending UNBIND_DEVICE to Mercury server...");
+			this.log(LogMessage.DEBUG, "Sending UNBIND_DEVICE to drozer server...");
 			
 			this.send(new MessageFactory(SystemRequestFactory.unbind().setDevice(
 					device.getAndroidID(),

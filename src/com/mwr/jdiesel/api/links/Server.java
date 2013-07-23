@@ -79,7 +79,7 @@ public class Server extends Link {
 						
 						this.log(LogMessage.INFO, "Accepted connection...");
 						
-						this.log(LogMessage.INFO, "Starting Mercury thread...");
+						this.log(LogMessage.INFO, "Starting drozer thread...");
 						this.createConnection(new SocketTransport(socket));
 					}
 				}

@@ -209,7 +209,7 @@ public abstract class AbstractConnection extends Thread {
 	}
 	
 	/**
-	 * Start a new Mercury Session.
+	 * Start a new drozer Session.
 	 * 
 	 * This is invoked by the {@link #system_message_handler}, iff it receives a
 	 * START_SESSION message.
@@ -240,7 +240,7 @@ public abstract class AbstractConnection extends Thread {
 	}
 	
 	/**
-	 * Stop a Mercury Session.
+	 * Stop a drozer Session.
 	 * 
 	 * This is invoked by the {@link #system_message_handler}, iff it receives a
 	 * STOP_SESSION message.

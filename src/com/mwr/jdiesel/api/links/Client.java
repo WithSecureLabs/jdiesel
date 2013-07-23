@@ -59,7 +59,7 @@ public class Client extends Link {
 					if(socket != null) {
 						this.log(LogMessage.INFO, "Socket connected.");
 						
-						this.log(LogMessage.INFO, "Attempting to start Mercury thread...");
+						this.log(LogMessage.INFO, "Attempting to start drozer thread...");
 						this.createConnection(new SocketTransport(socket));
 					}
 				}
