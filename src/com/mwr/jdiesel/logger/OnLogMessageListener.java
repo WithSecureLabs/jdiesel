@@ -1,7 +1,7 @@
 package com.mwr.jdiesel.logger;
 
-public interface OnLogMessageListener {
+public interface OnLogMessageListener<T> {
 	
-	public void onLogMessage(Logger logger, LogMessage message);
+	public void onLogMessage(Logger<T> logger, LogMessage message);
 
 }

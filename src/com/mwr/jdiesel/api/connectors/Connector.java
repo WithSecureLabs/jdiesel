@@ -17,13 +17,13 @@ public abstract class Connector extends Observable {
 	public volatile boolean enabled = false;
 	public volatile Status status = Status.UNKNOWN;
 	
-	private Logger logger = new Logger();
+	private Logger<Connector> logger = new Logger<Connector>(this);
 	
 	public synchronized boolean isEnabled() {
 		return this.enabled;
 	}
 	
-	public Logger getLogger() {
+	public Logger<Connector> getLogger() {
 		return this.logger;
 	}
 	
