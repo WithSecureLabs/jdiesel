@@ -10,6 +10,8 @@ import java.io.OutputStream;
 
 import android.util.Log;
 
+import android.util.Log;
+
 public class Shell {
 	
 	private Process fd = null;
@@ -53,6 +55,7 @@ public class Shell {
 			
 			Thread.sleep(15);
 		}
+
 		return value.toString();
 	}
 	
@@ -90,10 +93,12 @@ public class Shell {
 		return true;
 		*/
 	}
+
     public void write(String value) throws IOException, InterruptedException {
     	this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
 		Thread.sleep(100);
+
 	}
     
 }
