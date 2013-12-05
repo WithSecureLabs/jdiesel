@@ -57,6 +57,7 @@ public class Endpoint extends Connector {
 	private boolean ssl = false;
 	private String ssl_truststore_password = "drozer";
 	private String ssl_truststore_path = "/data/data/com.mwr.dz/files/ca.bks";
+	private boolean active = false;
 	
 	private OnDetailedStatusListener on_detailed_status_listener;
 	
@@ -65,14 +66,14 @@ public class Endpoint extends Connector {
 	}
 	
 	public Endpoint(String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
-		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, password);
+		this(-1, name, host, port, ssl, ssl_truststore_path, ssl_truststore_password, password, false);
 	}
 	
 	public Endpoint(int id, String name, String host, int port) {
-		this(id, name, host, port, false, "/data/data/com.mwr.dz/files/ca.bks", "drozer", "");
+		this(id, name, host, port, false, "/data/data/com.mwr.dz/files/ca.bks", "drozer", "", false);
 	}
 	
-	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password) {
+	public Endpoint(int id, String name, String host, int port, boolean ssl, String ssl_truststore_path, String ssl_truststore_password, String password, boolean active) {
 		this.id = id;
 		this.name = name;
 		this.host = host;
@@ -81,6 +82,7 @@ public class Endpoint extends Connector {
 		this.ssl = ssl;
 		this.ssl_truststore_password = ssl_truststore_password;
 		this.ssl_truststore_path = ssl_truststore_path;
+		this.active = active;
 	}
 	
 	public static Endpoint deserialize(EndpointSerializer serializer, Object serialized) {
@@ -113,6 +115,10 @@ public class Endpoint extends Connector {
 	
 	public String getSSLTrustStorePath() {
 		return this.ssl_truststore_path;
+	}
+	
+	public boolean isActive(){
+		return this.active;
 	}
 	
 	/**
@@ -162,7 +168,9 @@ public class Endpoint extends Connector {
 				this.port != endpoint.getPort() ||
 				this.ssl != endpoint.isSSL() ||
 				!this.ssl_truststore_password.equals(endpoint.ssl_truststore_password) ||
-				!this.ssl_truststore_path.equals(endpoint.ssl_truststore_path)) {
+				!this.ssl_truststore_path.equals(endpoint.ssl_truststore_path) ||
+				this.active != endpoint.isActive()
+				) {
 			this.host = endpoint.getHost();
 			this.name = endpoint.getName();
 			this.password = endpoint.getPassword();
@@ -170,6 +178,7 @@ public class Endpoint extends Connector {
 			this.ssl = endpoint.isSSL();
 			this.ssl_truststore_password = endpoint.getSSLTrustStorePassword();
 			this.ssl_truststore_path = endpoint.getSSLTrustStorePath();
+			this.active = endpoint.isActive();
 			
 			this.setChanged();
 			this.notifyObservers();
