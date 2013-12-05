@@ -3,45 +3,36 @@ package com.mwr.jdiesel.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import android.util.Log;
+
 public class Shell {
 	
-	private FileDescriptor fd = null;
+	private Process fd = null;
 	private int[] id = new int[1];
 	BufferedInputStream stdin = null;
 	BufferedOutputStream stdout = null;
 	
-	static {
-		System.loadLibrary("jackpal-androidterm3");
-    }
-	
 	public Shell() throws IOException, InterruptedException {
-		this.fd = Shell.createSubprocess("/system/bin/sh", new String[] { "-" }, null, this.id);
-		
-		this.stdin = new BufferedInputStream(new FileInputStream(this.fd));
-		this.stdout = new BufferedOutputStream(new FileOutputStream(this.fd));
-		
-		this.write("cd /data/data/com.mwr.dz");
+		Log.i("JDIESEL : SHELL", "STARTING SHELL");
+		this.fd = Runtime.getRuntime().exec("/system/bin/sh");
+		Log.i("JDIESEL : SHELL", "ATTACHING STREAMS");
+		this.stdin = new BufferedInputStream(this.fd.getInputStream());
+		this.stdout = new BufferedOutputStream(this.fd.getOutputStream());
+		Log.i("JDIESEL : SHELL", "MOVING TO USER DIR");
+		this.write(String.format("cd %s", System.getProperty("user.dir")));
 		this.read();
+		
 	}
-
-    public static native FileDescriptor createSubprocess(String cmd, String[] args, String[] envVars, int[] processId);
-    public static native void setPtyWindowSize(FileDescriptor fd, int row, int col, int xpixel, int ypixel);
-    public static native int waitFor(int processId);
-    public static native void close(FileDescriptor fd);
-    public static native void hangupProcessGroup(int processId);
-    
+	
     public void close() {
-    	Shell.hangupProcessGroup(this.id[0]);
-    	Shell.close(this.fd);
+    	this.fd.destroy();
     }
 
 	public String read() throws IOException, InterruptedException {
+		Log.i("JDIESEL : SHELL", "READING SHELL");
 		StringBuffer value = new StringBuffer();
 		
 		while(this.stdin.available() > 0) {
@@ -53,7 +44,7 @@ public class Shell {
 			
 			Thread.sleep(50);
 		}
-		
+		Log.i("JDIESEL : SHELL", "RETURNING: " + value.toString());
 		return value.toString();
 	}
 	
@@ -72,18 +63,18 @@ public class Shell {
 				}
 			}
 		}
-		catch(IOException e) {}
-		catch (InterruptedException e) {}
+		catch(IOException e) {Log.e("JDIESEL : SHELL", String.format("IO ERROR: %s", e.getMessage()));}
+		catch (InterruptedException e) {Log.e("JDIESEL : SHELL", String.format("INTERRUPTED ERROR: %s", e.getMessage()));}
 		
 		return true;
 	}
     
     public void write(String value) throws IOException {
+    	Log.i("JDIESEL : SHELL", "WRITING TO SHELL: " + value);
 		this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
+		Log.i("JDIESEL : SHELL", "FLUSHING");
 		
-		for(int i=0; i<value.length(); i++)
-			this.stdin.read();
 	}
     
 }
