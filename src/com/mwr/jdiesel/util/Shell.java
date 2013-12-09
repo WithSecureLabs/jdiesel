@@ -4,7 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import android.util.Log;
 
@@ -12,15 +14,17 @@ public class Shell {
 	
 	private Process fd = null;
 	private int[] id = new int[1];
-	BufferedInputStream stdin = null;
-	BufferedOutputStream stdout = null;
+	InputStream stdin = null;
+	InputStream stderr = null;
+	OutputStream stdout = null;
 	
 	public Shell() throws IOException, InterruptedException {
 		Log.i("JDIESEL : SHELL", "STARTING SHELL");
 		this.fd = Runtime.getRuntime().exec("/system/bin/sh");
 		Log.i("JDIESEL : SHELL", "ATTACHING STREAMS");
-		this.stdin = new BufferedInputStream(this.fd.getInputStream());
-		this.stdout = new BufferedOutputStream(this.fd.getOutputStream());
+		this.stdin = this.fd.getInputStream();
+		this.stderr = this.fd.getErrorStream();
+		this.stdout = this.fd.getOutputStream();
 		Log.i("JDIESEL : SHELL", "MOVING TO USER DIR");
 		this.write(String.format("cd %s", System.getProperty("user.dir")));
 		this.read();
@@ -42,9 +46,17 @@ public class Shell {
 				value.append((char)c);
 			}
 			
-			Thread.sleep(50);
+			Thread.sleep(15);
 		}
-		Log.i("JDIESEL : SHELL", "RETURNING: " + value.toString());
+		while(this.stderr.available() > 0) {
+			for(int i=0; i<this.stderr.available(); i++) {
+				int c = this.stderr.read();
+
+				value.append((char)c);
+			}
+			
+			Thread.sleep(15);
+		}
 		return value.toString();
 	}
 	
@@ -69,12 +81,12 @@ public class Shell {
 		return true;
 	}
     
-    public void write(String value) throws IOException {
+    public void write(String value) throws IOException, InterruptedException {
     	Log.i("JDIESEL : SHELL", "WRITING TO SHELL: " + value);
 		this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
 		Log.i("JDIESEL : SHELL", "FLUSHING");
-		
+		Thread.sleep(100);
 	}
     
 }
