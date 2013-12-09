@@ -10,8 +10,6 @@ import java.io.OutputStream;
 
 import android.util.Log;
 
-import android.util.Log;
-
 public class Shell {
 	
 	private Process fd = null;
@@ -67,9 +65,6 @@ public class Shell {
 			}catch(IllegalThreadStateException e){
 				return true;
 			}
-			
-			
-			
 			
 			/*
 		try{
