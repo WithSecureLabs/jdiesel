@@ -27,9 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 This licence does not apply to the following components:
 
- - Android Terminal Emulator located at /jni/libjackpal and
-   /src/com/mwr/jdiesel/util/Shell.java. Released under an Apache v2.0
-   License, and available to download from https://github.com/jackpal
  - The Google Protocol Buffers support library for Java, located at:
    /libs/protobuf-java-2.4.1.jar. Owned by Google and available to download
    from: https://developers.google.com/protocol-buffers/
