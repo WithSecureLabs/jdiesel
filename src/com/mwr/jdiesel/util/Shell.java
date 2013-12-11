@@ -19,13 +19,10 @@ public class Shell {
 	OutputStream stdout = null;
 	
 	public Shell() throws IOException, InterruptedException {
-		Log.i("JDIESEL : SHELL", "STARTING SHELL");
 		this.fd = Runtime.getRuntime().exec("/system/bin/sh");
-		Log.i("JDIESEL : SHELL", "ATTACHING STREAMS");
 		this.stdin = this.fd.getInputStream();
 		this.stderr = this.fd.getErrorStream();
 		this.stdout = this.fd.getOutputStream();
-		Log.i("JDIESEL : SHELL", "MOVING TO USER DIR");
 		this.write(String.format("cd %s", System.getProperty("user.dir")));
 		this.read();
 		
@@ -36,7 +33,6 @@ public class Shell {
     }
 
 	public String read() throws IOException, InterruptedException {
-		Log.i("JDIESEL : SHELL", "READING SHELL");
 		StringBuffer value = new StringBuffer();
 		
 		while(this.stdin.available() > 0) {
@@ -82,10 +78,8 @@ public class Shell {
 	}
     
     public void write(String value) throws IOException, InterruptedException {
-    	Log.i("JDIESEL : SHELL", "WRITING TO SHELL: " + value);
-		this.stdout.write((value + "\n").getBytes());
+    	this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
-		Log.i("JDIESEL : SHELL", "FLUSHING");
 		Thread.sleep(100);
 	}
     
