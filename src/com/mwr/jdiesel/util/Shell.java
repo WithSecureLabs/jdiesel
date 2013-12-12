@@ -19,7 +19,7 @@ public class Shell {
 	OutputStream stdout = null;
 	
 	public Shell() throws IOException, InterruptedException {
-		this.fd = Runtime.getRuntime().exec("/system/bin/sh");
+		this.fd = Runtime.getRuntime().exec("/system/bin/sh -i");
 		this.stdin = this.fd.getInputStream();
 		this.stderr = this.fd.getErrorStream();
 		this.stdout = this.fd.getOutputStream();
