@@ -87,7 +87,6 @@ public class Shell {
 		return true;
 		*/
 	}
-
     public void write(String value) throws IOException, InterruptedException {
     	this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
