@@ -57,7 +57,19 @@ public class Shell {
 	}
 	
 	public boolean valid() {
-		try {
+
+			try{
+				this.fd.exitValue();
+				return false;
+			}catch(IllegalThreadStateException e){
+				return true;
+			}
+			
+			
+			
+			
+			/*
+		try{
 			Runtime run = Runtime.getRuntime();
 			Process pr = run.exec("ps " + this.id[0]);
 			pr.waitFor();
@@ -67,16 +79,17 @@ public class Shell {
 			while((line=buf.readLine()) != null) {
 				if(line.contains("" + this.id[0])) {
 					if(line.split("\\s+")[7].equals("Z"))
-						return false;
+						return true;
 				}
 			}
+			
 		}
 		catch(IOException e) {Log.e("JDIESEL : SHELL", String.format("IO ERROR: %s", e.getMessage()));}
 		catch (InterruptedException e) {Log.e("JDIESEL : SHELL", String.format("INTERRUPTED ERROR: %s", e.getMessage()));}
 		
 		return true;
+		*/
 	}
-    
     public void write(String value) throws IOException, InterruptedException {
     	this.stdout.write((value + "\n").getBytes());
 		this.stdout.flush();
