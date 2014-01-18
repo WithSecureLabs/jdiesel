@@ -1,18 +1,13 @@
 package com.mwr.jdiesel.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 
 public class Shell {
 	
 	private Process fd = null;
-	private int[] id = new int[1];
 	InputStream stdin = null;
 	InputStream stderr = null;
 	OutputStream stdout = null;
@@ -24,7 +19,6 @@ public class Shell {
 		this.stdout = this.fd.getOutputStream();
 		this.write(String.format("cd %s", System.getProperty("user.dir")));
 		this.read();
-		
 	}
 	
     public void close() {

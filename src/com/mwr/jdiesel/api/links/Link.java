@@ -12,13 +12,12 @@ import com.mwr.jdiesel.connection.AbstractLink;
 import com.mwr.jdiesel.logger.LogMessage;
 import com.mwr.jdiesel.logger.Logger;
 
-
 public abstract class Link extends AbstractLink {
 	
 	protected Connector parameters = null;
 	private DeviceInfo device_info;
 	
-	private Logger logger = null;
+	private Logger<Connector> logger = null;
 	
 	public Link(Connector parameters, DeviceInfo device_info) {
 		this.parameters = parameters;
@@ -56,7 +55,7 @@ public abstract class Link extends AbstractLink {
 			Log.i("link", message.getMessage());
 	}
 	
-	public void setLogger(Logger logger) {
+	public void setLogger(Logger<Connector> logger) {
 		this.logger = logger;
 	}
 	
