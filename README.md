@@ -1,7 +1,7 @@
 jdiesel (fuels the drozer)
 ========================
 
-jdiesel does the heavy-lifting for drozer. For more information about drozer see the [main project](https://github.com/mwrlabs/drozer).
+jdiesel does the heavy-lifting for drozer. For more information about drozer see the [main project](https://github.com/WithSecureLabs/drozer).
 
 jdiesel supports drozer by providing a number of services:
 
@@ -26,13 +26,4 @@ drozer is Open Source software, made great by contributions from the community.
 
 For full source code, to report bugs, suggest features and contribute patches please see our Github project:
 
-  https://github.com/mwrlabs/drozer
-
-Bug reports, feature requests, comments and questions can be submitted sent to:
-
-  drozer [at] mwrinfosecurity.com
-
-Follow the latest drozer news, follow the project on Twitter:
-
-  @mwrdrozer
-
+  https://github.com/WithSecureLabs/drozer
